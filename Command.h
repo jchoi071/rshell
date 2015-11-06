@@ -15,7 +15,7 @@ class Command
         int connector;
     public:
         Command (vector<char*> args, int connector);
-        ~Command();
+        //~Command();
         bool getPrevCommandStatus();
         vector<char*> getArgArray();
         int getConnector();
@@ -30,12 +30,16 @@ Command::Command(vector<char*> args, int connector)
     this->connector = connector;    
 }
 
-/*Command::~Command()
+/*
+Command::~Command()
 {
     
-    //args.erase(args.begin(), args.begin() + args.size());
-    //args.clear();
-}*/
+    for (unsigned a = 0; a < args.size(); ++a)
+    {
+        delete args.at(a);
+    }
+}
+*/
 
 bool Command::getPrevCommandStatus()
 {
