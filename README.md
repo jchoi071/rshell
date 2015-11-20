@@ -8,7 +8,7 @@ Usage: ./rshell commands
 
 ### Known Bugs
 - Many, many memory leaks.
-- Occasionally, the shell may display memory-related errors. Commands read from the command line do not cause these errors, while commands read from bash scrop here-documents often cause these errors.
+- The separator ; does not work.
 - The exit command occasionally does not work after invalid commands are used. The number of times exit must be entered exactly matches the number of invalid commands.
 
 ### License
