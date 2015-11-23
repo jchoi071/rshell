@@ -30,9 +30,9 @@ void parse(string console)
             
             if (arg[strlen(arg) - 1] == ';') 
             {   
-                arg[strlen(arg) - 1] = 0;
-                char* word = new char [strlen(arg) + 1];
-                strcpy(word, arg);
+                //arg[strlen(arg) - 1] = 0;
+                char* word = new char [strlen(arg)];
+                strncpy(word, arg, strlen(arg) - 1); //copy everything but ';'
                 vargs.at(vargsIndex).push_back(word);       
                 Command* c = new Command(vargs.at(vargsIndex), 0); //dynamically allocate memory for a new Command object
                 commands.push_back(c); //put new object into Command vector

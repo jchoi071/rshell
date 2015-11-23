@@ -77,8 +77,8 @@ bool Command::executeCommand()
     
     com[args.size()] = 0;
     //com[args.size()] = '\0';
-    if (strcmp(com[0], "cd") == 0) result = cd(com);
-    else if (strcmp(com[0], "test") == 0 || strcmp(com[0], "[") == 0) result = test(com);
+    if (strcmp(com[0], "cd") == 0) result = cd(com); //special case: cd
+    else if (strcmp(com[0], "test") == 0 || strcmp(com[0], "[") == 0) result = test(com); //special case: test/[]
     else result = execute(com);
     //delete[] com;
     

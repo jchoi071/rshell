@@ -12,7 +12,7 @@
 using namespace std;
 
 
-bool cd(char* args[])
+bool cd(char* args[]) //function for executing cd
 {
     int status = 0;
     bool result = true;
@@ -27,29 +27,29 @@ bool cd(char* args[])
     return result;
 }
 
-int exist(char* path, int flag)
+int exist(char* path, int flag) //helper function to determine existence of files/directories
 {
     int status = 0;
     bool isDir = false;
     bool isFile = false;
     struct stat sb;
-    status = stat(path, &sb);
+    status = stat(path, &sb); //status system call
     //cout << "Status: " << status << endl;
-    if (status != 0)
+    if (status != 0) //if file or directory does not exist
     {
         perror ("File or directory does not exist");
         status = 1;
     }
-    else
+    else //if file or directory does exist
     {
         switch (sb.st_mode & S_IFMT)
         {
-            case S_IFREG: 
+            case S_IFREG: //if path is file
                 isFile = true;
                 isDir = false;
                 //cout << "S_IFREG" << endl; 
                 break;
-            case S_IFDIR: 
+            case S_IFDIR: //if path is directory
                 isDir = true; 
                 isFile = false;
                 //cout << "S_IFDIR" << endl;
@@ -57,12 +57,12 @@ int exist(char* path, int flag)
         }
         
 
-        if (flag == 1 && !isFile) status = 1;
-        else if (flag == 2 && !isDir) status = 1;
+        if (flag == 1 && !isFile) status = 1; //if -f used but path is not a file
+        else if (flag == 2 && !isDir) status = 1; //if -d used but path is not a directory
+        
     }
     
-    //cout << "Status: " << status << endl;
-    
+    //cout << "Status: " << status << endl; 
     return status;
 }
 
@@ -73,37 +73,37 @@ int test(char* args[])
     int status = 0;   
 
     unsigned size = 0;
-    while (args[size] != 0)
+    while (args[size] != 0) //find size of args array
     {
         ++size;
         //cout << "Size " << size << endl;
     }
  
     //int size = strSize(args);
-    if (strcmp(args[0], "[") == 0)
+    if (strcmp(args[0], "[") == 0) //if [] is used
     {
-        if (size == 3 && strcmp(args[2], "]") == 0) status = exist(args[1], 0);
-        else if (size == 4 && strcmp(args[3], "]") == 0)
+        if (size == 3 && strcmp(args[2], "]") == 0) status = exist(args[1], 0); //if -e is not used
+        else if (size == 4 && strcmp(args[3], "]") == 0) //if any flag is used
         {
-            if (strcmp(args[1], "-e") == 0) status = exist(args[2], 0);
-            else if (strcmp(args[1], "-f") == 0) status = exist(args[2], 1);
-            else if (strcmp(args[1], "-d") == 0) status = exist(args[2], 2);
-            else cout << "Invalid command usage" << endl;
+            if (strcmp(args[1], "-e") == 0) status = exist(args[2], 0); //-e
+            else if (strcmp(args[1], "-f") == 0) status = exist(args[2], 1); //-f
+            else if (strcmp(args[1], "-d") == 0) status = exist(args[2], 2); //-d
+            else cout << "Invalid command usage" << endl; //if invalid flag is used
         }
-        else cout << "Invalid command usage" << endl;
+        else cout << "Invalid command usage" << endl; //if ending ']' is not present
     }
 
-    else
+    else //if normal test is used
     {
-        if (size == 2) status = exist(args[1], 0);
-        else if (size == 3)
+        if (size == 2) status = exist(args[1], 0); //if -e is not used
+        else if (size == 3) //if any flag is used
         {
-            if (strcmp(args[1], "-e") == 0) status = exist(args[2], 0);
-            else if (strcmp(args[1], "-f") == 0) status = exist(args[2], 1);
-            else if (strcmp(args[1], "-d") == 0) status = exist(args[2], 2);
-            else cout << "Invalid command usage" << endl;
+            if (strcmp(args[1], "-e") == 0) status = exist(args[2], 0); //-e
+            else if (strcmp(args[1], "-f") == 0) status = exist(args[2], 1); //-f
+            else if (strcmp(args[1], "-d") == 0) status = exist(args[2], 2); //-d
+            else cout << "Invalid command usage" << endl; //if invalid flag is used
         }
-        else cout << "Invalid command usage" << endl;
+        else cout << "Invalid command usage" << endl; //if command contains extra parameters
 
     }
     //else cout << "This shouldn't happen" << endl;
@@ -112,7 +112,7 @@ int test(char* args[])
     return status;
 }
 
-int execute(char* args[])
+int execute(char* args[]) //function for executing commands based in programs
 {
     int result = 0;
     pid_t child;
